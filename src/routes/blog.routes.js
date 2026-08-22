@@ -15,8 +15,6 @@ router.patch("/:blogId", verifyJWT, upload.single ("coverImage"), updateBlog);
 
 router.get("/:blogId", getBlogById);
 
-router.patch( "/:blogId", verifyJWT, updateBlog );
-
 router.delete( "/:blogId", verifyJWT, deleteBlog );
 
 export default router;
