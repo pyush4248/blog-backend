@@ -239,7 +239,8 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     // Destructuring the current and new passwords from the request body
     const { currentPassword, newPassword } = req.body;
 
-    if (oldPassword === newPassword) {
+
+    if (currentPassword === newPassword) {
         throw new ApiError(
             400,
             "New password must be different from old password"
