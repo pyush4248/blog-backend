@@ -651,7 +651,7 @@ const getBlogByCategory = asyncHandler(async (req, res) => {
         )
     }
 
-    const blogsWithCategory = Blog.find({
+    const blogsWithCategory = await Blog.find({
         category
     })
 
