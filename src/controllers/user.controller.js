@@ -504,6 +504,18 @@ const updateAvatar = asyncHandler(async (req, res) => {
 
 })
 
+const isLoggedIn = asyncHandler(async (req, res) => {
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            { isLoggedIn: true },
+            "User is logged in"
+        )
+    );
+
+});
+
 export {
     registerUser,
     loginUser,
@@ -512,5 +524,6 @@ export {
     refreshAccessToken,
     changeCurrentPassword,
     updateProfile,
-    updateAvatar
+    updateAvatar,
+    isLoggedIn
 };    

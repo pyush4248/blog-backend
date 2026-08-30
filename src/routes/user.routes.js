@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import {authRateLimiter, apiRateLimiter} from '../middlewares/rateLimit.middleware.js';
-import { registerUser, loginUser, getCurrentUser, logoutUser, refreshAccessToken, changeCurrentPassword, updateProfile, updateAvatar } from '../controllers/user.controller.js';
+import { registerUser, loginUser, getCurrentUser, logoutUser, refreshAccessToken, changeCurrentPassword, updateProfile, updateAvatar, isLoggedIn } from '../controllers/user.controller.js';
 import verifyJWT from '../middlewares/auth.middleware.js';
 import upload from '../middlewares/multer.middleware.js';
 
@@ -21,11 +21,8 @@ router.post("/change-password", apiRateLimiter, verifyJWT, changeCurrentPassword
 
 router.patch("/update-profile", apiRateLimiter, verifyJWT, updateProfile)
 
-router.patch(
-    "/avatar",
-    verifyJWT,
-    upload.single("avatar"),
-    updateAvatar
-);
+router.get("/isLoggedIn", verifyJWT, isLoggedIn)
+
+router.patch("/avatar", verifyJWT, updateAvatar);
 
 export default router;
