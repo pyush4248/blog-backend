@@ -11,6 +11,8 @@ router.get("/", getAllBlogs);
 
 router.get("/my-blogs", verifyJWT, getMyBlogs);
 
+router.get("/blogCategory", getCategory)
+
 router.patch("/:blogId", verifyJWT, upload.single ("coverImage"), updateBlog);
 
 router.get("/:blogId", getBlogById);
@@ -19,6 +21,6 @@ router.delete( "/:blogId", verifyJWT, deleteBlog );
 
 router.get("/blog/:category", getBlogByCategory)
 
-router.get("/blogCategory", getCategory)
+
 
 export default router;
