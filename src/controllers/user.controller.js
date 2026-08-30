@@ -239,7 +239,6 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     // Destructuring the current and new passwords from the request body
     const { currentPassword, newPassword } = req.body;
 
-
     if (currentPassword === newPassword) {
         throw new ApiError(
             400,
@@ -248,7 +247,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     }
 
     if (
-        !oldPassword?.trim() ||
+        !currentPassword?.trim() ||
         !newPassword?.trim()
     ) {
         throw new ApiError(
@@ -260,6 +259,10 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     // Finding the user by ID and selecting the password field
     const user = await User.findById(req.user._id)
         .select("+password");
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
 
     const isCurrentPasswordCorrect = await user.isPasswordCorrect(currentPassword);
 
