@@ -127,8 +127,9 @@ const loginUser = asyncHandler(async (req, res) => {
     // cookie options
     const options = {
         httpOnly: true,
-        secure: true
-    }
+        secure: true,
+        sameSite: "none"
+    };
 
     //Sending the response with access token, refresh token and user data
     res.status(200).cookie("refreshToken", refreshToken, options).cookie("accessToken", accessToken, options).json(new ApiResponse(
