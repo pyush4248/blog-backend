@@ -664,17 +664,36 @@ const getBlogByCategory = asyncHandler(async (req, res) => {
 })
 
 const getCategory = asyncHandler(async (req, res) => {
-    const categories = await Blog.distinct("category");
 
-    return res.status(201).json(
+    const categories = await Blog.aggregate([
+        {
+            $group: {
+                _id: "$category",
+                count: { $sum: 1 }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                category: "$_id",
+                count: 1
+            }
+        },
+        {
+            $sort: {
+                category: 1
+            }
+        }
+    ]);
+
+    return res.status(200).json(
         new ApiResponse(
-            201,
+            200,
             categories,
-            "Categories fetched successfull"
+            "Categories fetched successfully"
         )
     );
-
-})
+});
 
 
 
