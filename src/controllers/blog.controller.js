@@ -640,6 +640,41 @@ const getMyBlogs = asyncHandler(async (req, res) => {
     );
 });
 
+const getBlogByCategory = asyncHandler(async (req, res) => {
+
+    const { category } = req.params;
+
+    if (!category) {
+        throw new ApiError(
+            400,
+            "Category is null - custom message"
+        )
+    }
+
+    const blogsWithCategory = Blog.find({
+        category
+    })
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            blogsWithCategory,
+            "Blogs reurned Successfull with Category"
+        ))
+})
+
+const getCategory = asyncHandler(async (req, res) => {
+    const categories = await Blog.distinct("category");
+
+    return res.status(201).json(
+        new ApiResponse(
+            201,
+            categories,
+            "Categories fetched successfull"
+        )
+    );
+
+})
 
 
 
@@ -649,5 +684,7 @@ export {
     getBlogById,
     updateBlog,
     deleteBlog,
-    getMyBlogs
+    getMyBlogs,
+    getCategory,
+    getBlogByCategory
 };
