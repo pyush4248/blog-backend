@@ -620,6 +620,36 @@ const getMyBlogs = asyncHandler(async (req, res) => {
         .sort(sortOption)
         .skip(skip)
         .limit(limitNumber);
+    
+    const publishedCount = await Blog.countDocuments({
+        author: req.user._id,
+        status: "published"
+    });
+
+    const draftCount = await Blog.countDocuments({
+        author: req.user._id,
+        status: "draft"
+    });
+
+    const totalBlogsCount = await Blog.countDocuments({
+        author: req.user._id
+    });
+
+    const viewsCount = await Blog.aggregate([
+        {
+            $match: {
+                author: req.user._id
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                totalViews: { $sum: "$views" }
+            }
+        }
+    ]);
+
+    const totalViews = viewsCount[0]?.totalViews || 0;
 
     const data = {
         blogs,
@@ -628,6 +658,12 @@ const getMyBlogs = asyncHandler(async (req, res) => {
             limit: limitNumber,
             totalBlogs,
             totalPages
+        },
+        blogData : {
+            totalBlogsCount : totalBlogsCount,
+            publishedCount : publishedCount,
+            draftCount : draftCount,
+            totalViews : totalViews
         }
     };
 
