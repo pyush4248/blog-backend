@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 
 import bcrypt from 'bcrypt';
+import { type } from 'node:os';
 // ye user schema hai. Ye schema user ke data ko define karega. Jaise ki user ka name, email, password, etc. Ye schema mongoose ke Schema class ka instance hai. Ye schema ko use karke hum user model create karenge. Ye model hume database me user ke data ko store karne me help karega.
 
 // schema => Schema ek blueprint hai jo batata hai document kaisa dikhega aur uske validation rules kya hain.
@@ -67,6 +68,13 @@ const userSchema = new mongoose.Schema({
     refreshToken: {
         type: String,
         select: false
+    },
+    bio : {
+        type : String,
+        trim :true,
+        default : "You can write about yourself Here",
+        minlength: [30, "Last name must be at least 2 characters"],
+        maxlength: [100, "Last name cannot exceed 30 characters"]
     }
 }, {
     timestamps: true
