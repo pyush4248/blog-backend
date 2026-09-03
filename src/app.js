@@ -20,12 +20,6 @@ import blogRoutes from "./routes/blog.routes.js";
 
 const app = express();
 
-app.use(helmet());
-
-app.use(express.json());// Ye middleware body ko parse karega aur req.body me store karega. Ye sirf json data ke liye kaam karega. Agar koi aur data parse karna hai to hume alag se middleware use karna padega
-
-app.use(cookieParser());// Ye middleware cookies ko parse karega aur req.cookies me store karega. Ye middleware sirf cookies ke liye kaam karega. Agar koi aur data parse karna hai to hume alag se middleware use karna padega
-
 app.use(
     cors({
         origin: process.env.CORS_ORIGIN,
@@ -34,13 +28,21 @@ app.use(
 );
 
 
+app.use(helmet());
+
+app.use(express.json());// Ye middleware body ko parse karega aur req.body me store karega. Ye sirf json data ke liye kaam karega. Agar koi aur data parse karna hai to hume alag se middleware use karna padega
+
+app.use(cookieParser());// Ye middleware cookies ko parse karega aur req.cookies me store karega. Ye middleware sirf cookies ke liye kaam karega. Agar koi aur data parse karna hai to hume alag se middleware use karna padega
+
+
+
 app.use("/api/v1/users", userRoutes);
 
 app.use("/api/v1/blogs", apiRateLimiter, blogRoutes);
 
 app.use("/api/v1/comments", apiRateLimiter, commentRoutes);
 
-app.use("/api/v1/bookmarks",apiRateLimiter, bookmarkRoutes);
+app.use("/api/v1/bookmarks", apiRateLimiter, bookmarkRoutes);
 
 app.use(errorHandler);
 
