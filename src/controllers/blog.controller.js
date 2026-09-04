@@ -620,7 +620,7 @@ const getMyBlogs = asyncHandler(async (req, res) => {
         .sort(sortOption)
         .skip(skip)
         .limit(limitNumber);
-    
+
     const publishedCount = await Blog.countDocuments({
         author: req.user._id,
         status: "published"
@@ -659,11 +659,11 @@ const getMyBlogs = asyncHandler(async (req, res) => {
             totalBlogs,
             totalPages
         },
-        blogData : {
-            totalBlogsCount : totalBlogsCount,
-            publishedCount : publishedCount,
-            draftCount : draftCount,
-            totalViews : totalViews
+        blogData: {
+            totalBlogsCount: totalBlogsCount,
+            publishedCount: publishedCount,
+            draftCount: draftCount,
+            totalViews: totalViews
         }
     };
 
